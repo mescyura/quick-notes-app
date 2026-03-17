@@ -136,13 +136,12 @@ header h1 {
 }
 
 .notes-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-	gap: 1.5rem;
+	position: relative;
 }
 
 main#notesContainer {
-	flex: 1;
+	flex: 1 0 auto;
+	padding-bottom: 1.5rem;
 }
 
 #notesContainer.is-empty {
@@ -157,13 +156,19 @@ main#notesContainer {
 	max-width: 520px;
 }
 
+#notesContainer.is-empty .note-card {
+	position: static;
+}
+
 .note-card {
 	background: var(--surface-color);
 	border-radius: 0.75rem;
 	padding: 1.5rem;
 	border: 1px solid var(--surface-color);
 	transition: all 0.2s ease;
-	position: relative;
+	position: absolute;
+	left: 0;
+	top: 0;
 }
 
 .note-card:hover {
@@ -182,7 +187,6 @@ main#notesContainer {
 .note-content {
 	color: var(--secondary-text-color);
 	line-height: 1.6;
-	margin-bottom: 1rem;
 	word-wrap: break-word;
 	white-space: pre-wrap;
 }
@@ -389,10 +393,11 @@ dialog::backdrop {
 }
 
 .app-footer {
-	margin-top: 2rem;
+	margin-top: auto;
 	padding-top: 1.25rem;
 	border-top: 1px solid
 		color-mix(in srgb, var(--surface-color), var(--text-color) 10%);
+	flex-shrink: 0;
 }
 
 .footer-text {
@@ -487,11 +492,6 @@ dialog::backdrop {
 
 	.theme-toggle-btn {
 		margin-left: 0;
-	}
-
-	.notes-grid {
-		grid-template-columns: 1fr;
-		gap: 1rem;
 	}
 
 	.note-card {

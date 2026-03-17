@@ -25,6 +25,12 @@ function saveNote(event) {
 			title: title,
 			content: content,
 		};
+
+		closeNoteDialog();
+		saveNotes();
+		updateNoteCardDOM(editingNoteId);
+		requestMasonryLayout();
+		return;
 	} else {
 		// Add New Note
 		notes.unshift({
@@ -37,6 +43,22 @@ function saveNote(event) {
 	closeNoteDialog();
 	saveNotes();
 	renderNotes();
+}
+
+function updateNoteCardDOM(noteId) {
+	const note = notes.find(n => n.id === noteId);
+	if (!note) return;
+
+	const card = document.querySelector(`.note-card[data-note-id="${noteId}"]`);
+	if (!card) return;
+
+	const titleEl = card.querySelector('.note-title');
+	const contentEl = card.querySelector('.note-content');
+
+	// Keep the same numbering format as render
+	const index = notes.findIndex(n => n.id === noteId);
+	if (titleEl) titleEl.textContent = `${index}. ${note.title}`;
+	if (contentEl) contentEl.textContent = note.content;
 }
 
 function generateId() {
@@ -56,6 +78,55 @@ function performDeleteNote(noteId) {
 	notes = notes.filter(note => note.id != noteId);
 	saveNotes();
 	renderNotes();
+}
+
+let masonryRaf = null;
+function requestMasonryLayout() {
+	if (masonryRaf) cancelAnimationFrame(masonryRaf);
+	masonryRaf = requestAnimationFrame(() => {
+		layoutNotesMasonry();
+		// One more pass after layout settles (fonts, etc.)
+		requestAnimationFrame(layoutNotesMasonry);
+	});
+}
+
+function layoutNotesMasonry() {
+	const container = document.getElementById('notesContainer');
+	if (!container) return;
+	if (container.classList.contains('is-empty')) return;
+
+	const cards = Array.from(container.querySelectorAll('.note-card'));
+	if (cards.length === 0) return;
+
+	const containerWidth = container.clientWidth;
+	const gap = 24; // px
+	const minColWidth = 300; // px
+
+	const colCount = Math.max(
+		1,
+		Math.floor((containerWidth + gap) / (minColWidth + gap))
+	);
+	const colWidth = Math.floor((containerWidth - gap * (colCount - 1)) / colCount);
+
+	const colHeights = new Array(colCount).fill(0);
+
+	cards.forEach((card, index) => {
+		const col = index % colCount; // left-to-right order
+		const x = col * (colWidth + gap);
+		const y = colHeights[col];
+
+		card.style.width = `${colWidth}px`;
+		card.style.transform = '';
+		card.style.left = `${x}px`;
+		card.style.top = `${y}px`;
+
+		// Measure after setting width
+		const h = card.offsetHeight;
+		colHeights[col] = y + h + gap;
+	});
+
+	// Keep a little breathing room so cards never overlap footer
+	container.style.height = `${Math.max(...colHeights)}px`;
 }
 
 function openDeleteDialog(noteId) {
@@ -82,6 +153,7 @@ function renderNotes() {
 
 	if (notes.length === 0) {
 		notesContainer.classList.add('is-empty');
+		notesContainer.style.height = '';
 		// show some fall back elements
 		notesContainer.innerHTML = `
       <div class="empty-state">
@@ -95,9 +167,9 @@ function renderNotes() {
 	notesContainer.classList.remove('is-empty');
 	notesContainer.innerHTML = notes
 		.map(
-			note => `
-    <div class="note-card">
-      <h3 class="note-title">${note.title}</h3>
+			(note, index) => `
+    <div class="note-card" data-note-id="${note.id}">
+      <h3 class="note-title">${index}. ${note.title}</h3>
       <p class="note-content">${note.content}</p>
       <div class="note-actions">
         <button class="edit-btn" onclick="openNoteDialog('${note.id}')" title="Edit Note">
@@ -109,9 +181,11 @@ function renderNotes() {
       </div>
 
     </div>
-    `
+    `,
 		)
 		.join('');
+
+	requestMasonryLayout();
 }
 
 function openNoteDialog(noteId = null) {
@@ -189,4 +263,10 @@ document.addEventListener('DOMContentLoaded', function () {
 		.addEventListener('close', function () {
 			deletingNoteId = null;
 		});
+
+	let resizeT = null;
+	window.addEventListener('resize', function () {
+		if (resizeT) clearTimeout(resizeT);
+		resizeT = setTimeout(requestMasonryLayout, 100);
+	});
 });
