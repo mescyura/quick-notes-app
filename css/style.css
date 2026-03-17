@@ -88,6 +88,11 @@ header .header-actions {
 	gap: 1rem;
 }
 
+header .header-actions .add-note-btn,
+header .header-actions .theme-toggle-btn {
+	height: 44px;
+}
+
 header h1 {
 	font-size: 26px;
 }
@@ -95,7 +100,7 @@ header h1 {
 .add-note-btn {
 	background: var(--brand-color);
 	color: white;
-	border: none;
+	border: 1px solid transparent;
 	padding: 0.75rem 1.5rem;
 	border-radius: 0.5rem;
 	cursor: pointer;
@@ -114,7 +119,7 @@ header h1 {
 	background: var(--surface-color);
 	color: var(--text-color);
 	border: 1px solid var(--surface-color);
-	padding: 0.75rem 1.5rem;
+	padding: 0;
 	border-radius: 0.5rem;
 	cursor: pointer;
 	font-weight: 500;
@@ -122,6 +127,7 @@ header h1 {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	width: 44px;
 }
 
 .theme-toggle-btn:hover {
