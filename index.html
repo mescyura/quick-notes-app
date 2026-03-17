@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Quick Notes</title>
+		<link rel="icon" type="image/svg+xml" href="img/logo.svg" />
+		<link rel="stylesheet" href="css/style.css" />
+		<script src="js/script.js" defer></script>
+	</head>
+	<body>
+		<header>
+			<div class="header-brand">
+				<img class="header-logo" src="img/logo.svg" alt="Quick Notes logo" />
+				<h1>Quick Notes</h1>
+			</div>
+			<div class="header-actions">
+				<button class="add-note-btn" onclick="openNoteDialog()">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="lucide lucide-plus-icon lucide-plus"
+					>
+						<path d="M5 12h14" />
+						<path d="M12 5v14" />
+					</svg>
+					Add Note
+				</button>
+				<button id="themeToggleBtn" class="theme-toggle-btn">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="lucide lucide-moon-icon lucide-moon"
+					>
+						<path
+							d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"
+						/>
+					</svg>
+				</button>
+			</div>
+		</header>
+
+		<main id="notesContainer" class="notes-grid"></main>
+
+		<dialog id="noteDialog">
+			<div class="dialog-content">
+				<div class="dialog-header">
+					<h2 class="dialog-title" id="dialogTitle">Add New Note</h2>
+					<button class="close-btn" onclick="closeNoteDialog()">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="lucide lucide-x-icon lucide-x"
+						>
+							<path d="M18 6 6 18" />
+							<path d="m6 6 12 12" />
+						</svg>
+					</button>
+				</div>
+
+				<form id="noteForm">
+					<div class="form-group">
+						<label for="noteTitle" class="form-label">Title</label>
+						<input
+							type="text"
+							id="noteTitle"
+							class="form-input"
+							placeholder="Enter note title..."
+							required
+						/>
+					</div>
+
+					<div class="form-group">
+						<label for="noteContent" class="form-label">Content</label>
+						<textarea
+							id="noteContent"
+							class="form-textarea"
+							placeholder="Write your note here..."
+							required
+						></textarea>
+					</div>
+
+					<div class="dialog-actions">
+						<button
+							type="button"
+							class="cancel-btn"
+							onclick="closeNoteDialog()"
+						>
+							Cancel
+						</button>
+						<button type="submit" class="save-btn">Save Note</button>
+					</div>
+				</form>
+			</div>
+		</dialog>
+
+		<dialog
+			id="confirmDeleteDialog"
+			aria-labelledby="confirmDeleteTitle"
+			aria-describedby="confirmDeleteDesc"
+		>
+			<div class="dialog-content confirm-dialog">
+				<div class="dialog-header">
+					<h2 class="dialog-title" id="confirmDeleteTitle">Delete note?</h2>
+					<button class="close-btn" onclick="closeDeleteDialog()">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="lucide lucide-x-icon lucide-x"
+						>
+							<path d="M18 6 6 18" />
+							<path d="m6 6 12 12" />
+						</svg>
+					</button>
+				</div>
+
+				<p class="confirm-delete-desc" id="confirmDeleteDesc">
+					Are you sure you want to delete this note? This action can’t be
+					undone.
+				</p>
+
+				<div class="dialog-actions">
+					<button
+						type="button"
+						class="cancel-btn"
+						onclick="closeDeleteDialog()"
+					>
+						Cancel
+					</button>
+					<button type="button" class="danger-btn" id="confirmDeleteBtn">
+						Delete
+					</button>
+				</div>
+			</div>
+		</dialog>
+
+		<footer class="app-footer">
+			<p class="footer-text">
+				<span>Quick Notes</span>
+				<span class="footer-sep">•</span>
+				<span class="footer-autor">
+					made by
+					<a
+						href="https://github.com/mescyura"
+						target="_blank"
+						rel="noreferrer noopener"
+						>mescyura</a
+					>
+				</span>
+			</p>
+		</footer>
+
+		<script src="https://unpkg.com/lucide@latest"></script>
+		<script>
+			lucide.createIcons();
+		</script>
+	</body>
+</html>

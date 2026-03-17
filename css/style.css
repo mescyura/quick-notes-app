@@ -1,0 +1,539 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:root {
+	--brand-color: #8b90ff;
+	--base-color: #f2f4f8;
+	--surface-color: #fff;
+	--text-color: #191b23;
+	--secondary-text-color: #3c404f;
+	--base-transparent-90: rgba(247, 247, 247, 0.9);
+	--base-transparent-100: rgba(247, 247, 247, 1);
+}
+
+.dark-theme {
+	--brand-color: #8b90ff;
+	--base-color: #1e1f26;
+	--surface-color: #2c2f38;
+	--text-color: #f0f0f0;
+	--secondary-text-color: #b0b3c0;
+	--base-transparent-90: rgba(30, 31, 38, 0.9);
+	--base-transparent-100: rgba(30, 31, 38, 1);
+}
+
+body {
+	font-family: Poppins, sans-serif;
+	margin: 0;
+	padding: 2rem;
+	background: var(--base-color);
+	color: var(--text-color);
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+button,
+input,
+textarea {
+	font: inherit;
+}
+
+/* Lucide / inline SVG icon alignment */
+.lucide,
+button svg {
+	width: 20px;
+	height: 20px;
+	display: block;
+	flex: 0 0 auto;
+}
+
+button svg {
+	pointer-events: none;
+}
+
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 2rem;
+}
+
+header .header-brand {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.75rem;
+	min-width: 0;
+}
+
+header .header-logo {
+	width: 36px;
+	height: 36px;
+	display: block;
+	flex: 0 0 auto;
+}
+
+header h1 {
+	line-height: 1.2;
+	white-space: nowrap;
+}
+
+header .header-actions {
+	display: inline-flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+header h1 {
+	font-size: 26px;
+}
+
+.add-note-btn {
+	background: var(--brand-color);
+	color: white;
+	border: none;
+	padding: 0.75rem 1.5rem;
+	border-radius: 0.5rem;
+	cursor: pointer;
+	font-weight: 500;
+	transition: all 0.2s ease;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.add-note-btn:hover {
+	background: #7a7fff;
+}
+
+.theme-toggle-btn {
+	background: var(--surface-color);
+	color: var(--text-color);
+	border: 1px solid var(--surface-color);
+	padding: 0.75rem 1.5rem;
+	border-radius: 0.5rem;
+	cursor: pointer;
+	font-weight: 500;
+	transition: all 0.2s ease;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.theme-toggle-btn:hover {
+	background: var(--brand-color);
+	color: white;
+}
+
+.notes-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	gap: 1.5rem;
+}
+
+main#notesContainer {
+	flex: 1;
+}
+
+#notesContainer.is-empty {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+
+#notesContainer.is-empty .empty-state {
+	width: 100%;
+	max-width: 520px;
+}
+
+.note-card {
+	background: var(--surface-color);
+	border-radius: 0.75rem;
+	padding: 1.5rem;
+	border: 1px solid var(--surface-color);
+	transition: all 0.2s ease;
+	position: relative;
+}
+
+.note-card:hover {
+	transform: scale(1.02);
+	box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+}
+
+.note-title {
+	font-size: 1.25rem;
+	font-weight: 600;
+	margin-bottom: 0.75rem;
+	color: var(--text-color);
+	word-wrap: break-word;
+}
+
+.note-content {
+	color: var(--secondary-text-color);
+	line-height: 1.6;
+	margin-bottom: 1rem;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+}
+
+.note-actions {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	display: flex;
+	gap: 0.5rem;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.2s ease;
+}
+
+.note-actions svg {
+	width: 18px !important;
+	height: 18px !important;
+}
+
+.note-card:hover .note-actions {
+	opacity: 1;
+	visibility: visible;
+}
+
+.edit-btn,
+.delete-btn {
+	width: 32px;
+	height: 32px;
+	border: none;
+	border-radius: 0.375rem;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.2s ease;
+	backdrop-filter: blur(10px);
+	background: var(--base-transparent-90);
+	color: var(--text-color);
+	border: 1px solid var(--surface-color);
+}
+
+.edit-btn:hover {
+	background: var(--base-transparent-100);
+	transform: scale(1.05);
+}
+
+.delete-btn:hover {
+	background: #ff5252;
+	transform: scale(1.05);
+	color: white;
+}
+
+dialog {
+	margin: auto;
+	inset: 0;
+	border: none;
+	border-radius: 1rem;
+	padding: 0;
+	background: var(--surface-color);
+	color: var(--text-color);
+	max-width: 500px;
+	width: 90vw;
+}
+
+dialog::backdrop {
+	background: rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(4px);
+}
+
+.dialog-content {
+	padding: 2rem;
+}
+
+.dialog-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1.5rem;
+}
+
+.dialog-title {
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+
+.close-btn {
+	background: none;
+	border: none;
+	font-size: 1.5rem;
+	cursor: pointer;
+	color: var(--secondary-text-color);
+	padding: 0.25rem;
+	border-radius: 0.25rem;
+	transition: background 0.2s ease;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.close-btn:hover {
+	background: var(--surface-color);
+}
+
+.form-group {
+	margin-bottom: 1.5rem;
+}
+
+.form-label {
+	display: block;
+	margin-bottom: 0.5rem;
+	font-weight: 500;
+	color: var(--text-color);
+}
+
+.form-input,
+.form-textarea {
+	width: 100%;
+	padding: 0.75rem;
+	border: 2px solid var(--surface-color);
+	border-radius: 0.5rem;
+	font-size: 1rem;
+	transition: border-color 0.2s ease;
+	background: var(--base-color);
+	color: var(--text-color);
+}
+
+.form-input:focus,
+.form-textarea:focus {
+	outline: none;
+	border-color: var(--brand-color);
+}
+
+.form-textarea {
+	resize: vertical;
+	min-height: 120px;
+}
+
+.dialog-actions {
+	display: flex;
+	gap: 1rem;
+	justify-content: flex-end;
+}
+
+.cancel-btn,
+.save-btn,
+.danger-btn {
+	padding: 0.75rem 1.5rem;
+	border: none;
+	border-radius: 0.5rem;
+	cursor: pointer;
+	font-weight: 500;
+	transition: all 0.2s ease;
+}
+
+.cancel-btn {
+	background: var(--base-color);
+	color: var(--text-color);
+}
+
+.save-btn {
+	background: var(--brand-color);
+	color: white;
+}
+
+.save-btn:hover {
+	background: #7a7fff;
+}
+
+.danger-btn {
+	background: #ff5252;
+	color: white;
+}
+
+.danger-btn:hover {
+	background: #e64b4b;
+}
+
+.confirm-delete-desc {
+	color: var(--secondary-text-color);
+	line-height: 1.6;
+	margin-bottom: 1.25rem;
+}
+
+.confirm-dialog {
+	max-width: 520px;
+}
+
+.empty-state {
+	text-align: center;
+	padding: 4rem 2rem;
+	color: var(--secondary-text-color);
+}
+
+.empty-state h2 {
+	font-size: 1.5rem;
+	margin-bottom: 0.5rem;
+	font-weight: 600;
+}
+
+.empty-state p {
+	font-size: 1rem;
+	margin-bottom: 2rem;
+}
+
+.app-footer {
+	margin-top: 2rem;
+	padding-top: 1.25rem;
+	border-top: 1px solid
+		color-mix(in srgb, var(--surface-color), var(--text-color) 10%);
+}
+
+.footer-text {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	color: var(--secondary-text-color);
+	font-size: 0.95rem;
+	text-align: center;
+}
+
+.footer-autor {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	white-space: nowrap;
+}
+
+.footer-autor a {
+	color: var(--text-color);
+	text-decoration: none;
+	font-weight: 600;
+	border-bottom: 1px solid transparent;
+	transition:
+		border-color 0.2s ease,
+		color 0.2s ease;
+}
+
+.footer-autor a:hover {
+	color: var(--brand-color);
+	border-bottom-color: currentColor;
+}
+
+.footer-autor a:focus-visible {
+	outline: 2px solid var(--brand-color);
+	outline-offset: 3px;
+	border-radius: 0.25rem;
+}
+
+.footer-sep {
+	opacity: 0.8;
+}
+
+@media (max-width: 530px) {
+	header {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 1rem;
+	}
+
+	.add-note-btn {
+		width: 100%;
+	}
+}
+
+@media (max-width: 475px) {
+	body {
+		padding: 1rem;
+	}
+
+	header {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 1rem;
+	}
+
+	header h1 {
+		font-size: 22px;
+	}
+
+	header .header-actions {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 0.75rem;
+	}
+
+	header .header-brand {
+		justify-content: center;
+	}
+
+	header .header-logo {
+		width: 32px;
+		height: 32px;
+	}
+
+	.add-note-btn,
+	.theme-toggle-btn {
+		width: 100%;
+		padding: 0.75rem 1rem;
+	}
+
+	.theme-toggle-btn {
+		margin-left: 0;
+	}
+
+	.notes-grid {
+		grid-template-columns: 1fr;
+		gap: 1rem;
+	}
+
+	.note-card {
+		padding: 1.25rem;
+	}
+
+	.note-actions {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	.edit-btn,
+	.delete-btn {
+		width: 36px;
+		height: 36px;
+	}
+
+	dialog {
+		width: calc(100vw - 2rem);
+		max-width: none;
+	}
+
+	.dialog-content {
+		padding: 1.25rem;
+	}
+
+	.dialog-title {
+		font-size: 1.25rem;
+	}
+
+	.dialog-actions {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.cancel-btn,
+	.save-btn,
+	.danger-btn {
+		width: 100%;
+		padding: 0.75rem 1rem;
+	}
+
+	.empty-state {
+		padding: 3rem 1.25rem;
+	}
+
+	.app-footer {
+		margin-top: 2rem;
+		padding-top: 1rem;
+	}
+}
