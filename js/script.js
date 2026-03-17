@@ -104,9 +104,11 @@ function layoutNotesMasonry() {
 
 	const colCount = Math.max(
 		1,
-		Math.floor((containerWidth + gap) / (minColWidth + gap))
+		Math.floor((containerWidth + gap) / (minColWidth + gap)),
 	);
-	const colWidth = Math.floor((containerWidth - gap * (colCount - 1)) / colCount);
+	const colWidth = Math.floor(
+		(containerWidth - gap * (colCount - 1)) / colCount,
+	);
 
 	const colHeights = new Array(colCount).fill(0);
 
@@ -169,9 +171,7 @@ function renderNotes() {
 		.map(
 			(note, index) => `
     <div class="note-card" data-note-id="${note.id}">
-      <h3 class="note-title">${note.title}</h3>
-      <p class="note-content">${note.content}</p>
-      <div class="note-actions">
+	 <div class="note-actions">
         <button class="edit-btn" onclick="openNoteDialog('${note.id}')" title="Edit Note">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil-icon lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
         </button>
@@ -179,7 +179,8 @@ function renderNotes() {
          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </div>
-
+      <h3 class="note-title">${note.title}</h3>
+      <p class="note-content">${note.content}</p>
     </div>
     `,
 		)
