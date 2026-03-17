@@ -169,7 +169,7 @@ function renderNotes() {
 		.map(
 			(note, index) => `
     <div class="note-card" data-note-id="${note.id}">
-      <h3 class="note-title">${index}. ${note.title}</h3>
+      <h3 class="note-title">${note.title}</h3>
       <p class="note-content">${note.content}</p>
       <div class="note-actions">
         <button class="edit-btn" onclick="openNoteDialog('${note.id}')" title="Edit Note">
