@@ -55,9 +55,7 @@ function updateNoteCardDOM(noteId) {
 	const titleEl = card.querySelector('.note-title');
 	const contentEl = card.querySelector('.note-content');
 
-	// Keep the same numbering format as render
-	const index = notes.findIndex(n => n.id === noteId);
-	if (titleEl) titleEl.textContent = `${index}. ${note.title}`;
+	if (titleEl) titleEl.textContent = note.title;
 	if (contentEl) contentEl.textContent = note.content;
 }
 
